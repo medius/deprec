@@ -4,8 +4,8 @@ Capistrano::Configuration.instance(:must_exist).load do
     namespace :xentools do
         
       SRC_PACKAGES[:xentools] = {
-        :url => "http://www.xen-tools.org/software/xen-tools/xen-tools-4.1.tar.gz",
-        :md5sum => "156ec5991f3885ef0daa58c3424d0a35  xen-tools-4.1.tar.gz",
+        :url => "http://www.xen-tools.org/software/xen-tools/xen-tools-4.2.1.tar.gz",
+        :md5sum => "7b57244fb1f40b90d1c303eb4d7dd128  xen-tools-4.2.1.tar.gz",
         :configure => '',
         :make => ''
       }

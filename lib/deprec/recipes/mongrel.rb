@@ -17,7 +17,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       task :install, :roles => :app do
         gem2.install 'mongrel'
         gem2.install 'mongrel_cluster'
-        gem2.install 'swiftiply'
+        # gem2.install 'swiftiply'
         symlink_mongrel_rails
         SYSTEM_CONFIG_FILES[:mongrel].each do |file|
           deprec2.render_template(:mongrel, file.merge(:remote=>true))

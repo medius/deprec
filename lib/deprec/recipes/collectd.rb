@@ -12,8 +12,8 @@ Capistrano::Configuration.instance(:must_exist).load do
       # Copy collection-php to /var/www/collectd
 
       SRC_PACKAGES[:collectd] = {
-        :url => "http://collectd.org/files/collectd-4.8.1.tar.gz",
-        :md5sum => "7e85183a129b566383e65332d2b863c5  collectd-4.8.1.tar.gz",
+        :url => "http://collectd.org/files/collectd-5.0.0.tar.gz",
+        :md5sum => "9454fff5c934541910e9c935e358d73f  collectd-5.0.0.tar.gz",
         :configure => "./configure --prefix=/usr/local;"
       }
 

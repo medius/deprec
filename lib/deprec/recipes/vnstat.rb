@@ -11,8 +11,8 @@ Capistrano::Configuration.instance(:must_exist).load do
       end
           
       SRC_PACKAGES[:vnstat] = {
-        :url => "http://humdi.net/vnstat/vnstat-1.6.tar.gz",
-        :md5sum => "ccaffe8e70d47e0cf2f25e52daa25712  vnstat-1.6.tar.gz", 
+        :url => "http://humdi.net/vnstat/vnstat-1.10.tar.gz",
+        :md5sum => "95421d968689130590348ceb80ff74a8  vnstat-1.10.tar.gz", 
         :configure => '',
         :post_install => 'vnstat --testkernel && vnstat -u -i eth0'
       }

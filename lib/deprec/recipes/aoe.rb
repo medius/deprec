@@ -2,14 +2,14 @@
 Capistrano::Configuration.instance(:must_exist).load do 
 
   SRC_PACKAGES[:aoe] = {
-    :url => "http://support.coraid.com/support/linux/aoe6-64.tar.gz",
-    :md5sum => "c5e1ebb734e3b29c0a3d886a700ca44a  aoe6-64.tar.gz",
+    :url => "http://support.coraid.com/support/linux/aoe6-76.tar.gz",
+    :md5sum => "0ad81bd13b9d8e05956c50d301748f0f  aoe6-76.tar.gz",
     :configure => ''
   }
   
   SRC_PACKAGES[:cec] = {
-    :url => "http://easynews.dl.sourceforge.net/sourceforge/aoetools/cec-8.tgz",
-    :md5sum => "7899dc549f9a368e532f9c39ed819f71  cec-8.tgz",
+    :url => "http://support.coraid.com/support/sr/cec-11.tgz",
+    # :md5sum => "7899dc549f9a368e532f9c39ed819f71  cec-8.tgz",
     :configure => '',
     :install => "test -f /usr/sbin/cec && rm /usr/sbin/cec; make install;"
   }

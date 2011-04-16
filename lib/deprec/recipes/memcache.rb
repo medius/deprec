@@ -22,12 +22,12 @@ Capistrano::Configuration.instance(:must_exist).load do
     memcached_stop
     memcached_start
   end
-  
+
   task :install_memcached do
-    version = 'memcached-1.2.2'
+    version = 'memcached-1.4.5'
     set :src_package, {
       :file => version + '.tar.gz',   
-      :md5sum => 'a08851f7fa7b15e92ee6320b7a79c321  memcached-1.2.2.tar.gz', 
+      :md5sum => '583441a25f937360624024f2881e5ea8  memcached-1.4.5.tar.gz', 
       :dir => version,  
       :url => "http://www.danga.com/memcached/dist/#{version}.tar.gz",
       :unpack => "tar zxf #{version}.tar.gz;",

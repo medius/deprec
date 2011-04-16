@@ -5,8 +5,8 @@ Capistrano::Configuration.instance(:must_exist).load do
     namespace :mri do
             
       SRC_PACKAGES[:mri] = {
-        :md5sum => "755aba44607c580fddc25e7c89260460  ftp://ftp.ruby-lang.org//pub/ruby/1.9/ruby-1.9.2-p0.tar.gz", 
-        :url => "ftp://ftp.ruby-lang.org//pub/ruby/1.9/ruby-1.9.2-p0.tar.gz",
+        :md5sum => "0d6953820c9918820dd916e79f4bfde8  ruby-1.9.2-p180.tar.gz", 
+        :url => "ftp://ftp.ruby-lang.org//pub/ruby/1.9/ruby-1.9.2-p180.tar.gz",
         :configure => "./configure --with-readline-dir=/usr/local;"
       }
   
@@ -31,8 +31,8 @@ Capistrano::Configuration.instance(:must_exist).load do
     namespace :rubygems do
   
       SRC_PACKAGES[:rubygems] = {
-        :md5sum => "e85cfadd025ff6ab689375adbf344bbe  rubygems-1.3.7.tgz", 
-        :url => "http://production.cf.rubygems.org/rubygems/rubygems-1.3.7.tgz",
+        # :md5sum => "e85cfadd025ff6ab689375adbf344bbe  rubygems-1.7.2.tgz", 
+        :url => "http://production.cf.rubygems.org/rubygems/rubygems-1.7.2.tgz",
 	    :configure => "",
 	    :make =>  "",
         :install => 'ruby setup.rb;'
