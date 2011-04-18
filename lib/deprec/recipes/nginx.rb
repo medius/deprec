@@ -18,9 +18,9 @@ Capistrano::Configuration.instance(:must_exist).load do
 
       desc "Install nginx"
       task :install, :roles => :web do
-        install_deps
-        deprec2.download_src(SRC_PACKAGES[:nginx], src_dir)
-        deprec2.install_from_src(SRC_PACKAGES[:nginx], src_dir)
+        # install_deps
+        # deprec2.download_src(SRC_PACKAGES[:nginx], src_dir)
+        # deprec2.install_from_src(SRC_PACKAGES[:nginx], src_dir)
         create_nginx_user
         initial_config
         activate
@@ -46,19 +46,20 @@ Capistrano::Configuration.instance(:must_exist).load do
           :owner => 'root:root'},
 
         {:template => 'nginx.conf.erb',
-          :path => "/usr/local/nginx/conf/nginx.conf",
-          :mode => 0644,
-          :owner => 'root:root'},
-
-        {:template => 'mime.types.erb',
-          :path => "/usr/local/nginx/conf/mime.types",
-          :mode => 0644,
-          :owner => 'root:root'},
-
-        {:template => 'nothing.conf',
-          :path => "/usr/local/nginx/conf/vhosts/nothing.conf",
+          # :path => "/usr/local/nginx/conf/nginx.conf",
+          :path => "/opt/nginx/conf/nginx.conf",
           :mode => 0644,
           :owner => 'root:root'}
+
+        # {:template => 'mime.types.erb',
+        #   :path => "/usr/local/nginx/conf/mime.types",
+        #   :mode => 0644,
+        #   :owner => 'root:root'},
+        # 
+        # {:template => 'nothing.conf',
+        #   :path => "/usr/local/nginx/conf/vhosts/nothing.conf",
+        #   :mode => 0644,
+        #   :owner => 'root:root'}
       ]
       
       PROJECT_CONFIG_FILES[:nginx] = [

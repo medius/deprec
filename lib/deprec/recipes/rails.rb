@@ -53,7 +53,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       end
 
       task :install_deps do
-        apt.install( {:base => %w(libmysqlclient15-dev sqlite3 libsqlite3-ruby libsqlite3-dev libpq-dev)}, :stable )
+        apt.install( {:base => %w(libmysqlclient15-dev sqlite3 libsqlite3-ruby libsqlite3-dev libpq-dev libxml2 libxslt-dev libxml2-dev)}, :stable )
       end
       
       #

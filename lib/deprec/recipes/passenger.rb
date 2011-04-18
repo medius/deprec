@@ -3,7 +3,7 @@ Capistrano::Configuration.instance(:must_exist).load do
   namespace :deprec do 
     namespace :passenger do
 
-      set :passenger_version, '2.2.14'    
+      set :passenger_version, '3.0.7'    
       set :passenger_install_dir, "/usr/local/lib/ruby/gems/1.8/gems/passenger-#{passenger_version}"
    
       # Default settings for Passenger config files
@@ -23,14 +23,24 @@ Capistrano::Configuration.instance(:must_exist).load do
       task :install, :roles => :app do
         install_deps
         gem2.install 'passenger', passenger_version
-        sudo "passenger-install-apache2-module _#{passenger_version}_ -a"
+        web_install
         config_system
-        activate_system 
+        # activate_system 
       end
       
       # Install dependencies for Passenger
       task :install_deps, :roles => :app do
-        apt.install( {:base => %w(apache2-mpm-prefork apache2-prefork-dev rsync)}, :stable )
+        if (top.deprec.web == :apache )
+          apt.install( {:base => %w(apache2-mpm-prefork apache2-prefork-dev rsync)}, :stable )
+        end
+      end
+      
+      task :web_install, :roles => :app do
+        if (top.deprec.web == :apache )
+          sudo "passenger-install-apache2-module _#{passenger_version}_ -a"
+        else 
+          sudo "passenger-install-nginx-module --auto --auto-download --prefix=/opt/nginx"
+        end
       end
       
       SYSTEM_CONFIG_FILES[:passenger] = [
@@ -63,7 +73,7 @@ Capistrano::Configuration.instance(:must_exist).load do
        
       desc "Generate Passenger apache configs (system & project level)."
       task :config_gen do
-        config_gen_system 
+        # config_gen_system 
         config_gen_project
       end
 
@@ -90,14 +100,14 @@ Capistrano::Configuration.instance(:must_exist).load do
       desc "Push Passenger configs (system level) to server"
       task :config_system, :roles => :app do
         deprec2.push_configs(:passenger, SYSTEM_CONFIG_FILES[:passenger])
-        activate_system
+        # activate_system
       end
 
       desc "Push Passenger configs (project level) to server"
       task :config_project, :roles => :app do
         deprec2.push_configs(:passenger, PROJECT_CONFIG_FILES[:passenger])
-        symlink_apache_vhost
-        activate_project
+        # symlink_apache_vhost
+        # activate_project
         symlink_logrotate_config
       end
       
@@ -115,8 +125,8 @@ Capistrano::Configuration.instance(:must_exist).load do
       end
       
       task :activate, :roles => :app do
-        activate_system
-        activate_project
+        # activate_system
+        # activate_project
       end
       
       task :activate_system, :roles => :app do
