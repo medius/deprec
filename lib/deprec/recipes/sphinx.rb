@@ -70,12 +70,12 @@ Capistrano::Configuration.instance(:must_exist).load do
       
       desc "Restart the sphinx searchd daemon"
       task :restart, :roles => :app do
-        run("cd #{deploy_to}/current; /usr/bin/rake us:start")  ### start or restart?  SUDO ? ###
+        run("cd #{deploy_to}/current; rake us:start")  ### start or restart?  SUDO ? ###
       end
 
       desc "Regenerate / Rotate the search index."
       task :reindex, :roles => :app do
-        run("cd #{deploy_to}/current; /usr/bin/rake us:in")  ### SUDO ? ###
+        run("cd #{deploy_to}/current; rake us:in")  ### SUDO ? ###
       end
 
     end 
