@@ -42,6 +42,10 @@ http {
         error_log <%= deploy_to %>/shared/log/<%= domain %>-error.log;
         client_max_body_size  <%= nginx_client_max_body_size %>;
         passenger_enabled on;
+        
+        if (-f $document_root/system/maintenance.html) { set $maintenance 1; }
+        if ($request_uri ~* (jpg|jpeg|gif|js|css)$) { set $maintenance 0; }
+        if ($maintenance) { rewrite ^(.*)$ /system/maintenance.html; break; }
       }
       
     server {
