@@ -38,46 +38,79 @@ Capistrano::Configuration.instance(:must_exist).load do
       
       ]
 
-      desc <<-DESC
-      Generate sphinx config from template. Note that this does not
-      push the config to the server, it merely generates required
-      configuration files. These should be kept under source control.            
-      The can be pushed to the server with the :config task.
-      DESC
-      task :config_gen do
-        PROJECT_CONFIG_FILES[:sphinx].each do |file|
-          deprec2.render_template(:sphinx, file)
-        end
-      end
-
-      desc "Push sphinx config files to server"
-      task :config, :roles => :sphinx do
-        config_project
-      end
+      # desc <<-DESC
+      # Generate sphinx config from template. Note that this does not
+      # push the config to the server, it merely generates required
+      # configuration files. These should be kept under source control.            
+      # The can be pushed to the server with the :config task.
+      # DESC
+      # task :config_gen do
+      #   PROJECT_CONFIG_FILES[:sphinx].each do |file|
+      #     deprec2.render_template(:sphinx, file)
+      #   end
+      # end
+      # task :config_gen do
+      #   PROJECT_CONFIG_FILES[:sphinx].each do |file|
+      #     deprec2.render_template(:sphinx, file)
+      #   end
+      # end
+      # desc "Push sphinx config files to server"
+      # task :config, :roles => :sphinx do
+      #   config_project
+      # end
+      # 
+      # desc "Push sphinx config files to server"
+      # task :config_project, :roles => :sphinx do
+      #   deprec2.push_configs(:sphinx, PROJECT_CONFIG_FILES[:sphinx])
+      #   symlink_monit_config
+      # end
       
-      desc "Push sphinx config files to server"
-      task :config_project, :roles => :sphinx do
-        deprec2.push_configs(:sphinx, PROJECT_CONFIG_FILES[:sphinx])
-        symlink_monit_config
-      end
-      
-      task :symlink_monit_config, :roles => :sphinx do
-        sudo "ln -sf #{deploy_to}/sphinx/monit.conf #{monit_confd_dir}/sphinx_#{application}.conf"
-      end
+      # task :symlink_monit_config, :roles => :sphinx do
+      #   sudo "ln -sf #{deploy_to}/sphinx/monit.conf #{monit_confd_dir}/sphinx_#{application}.conf"
+      # end
 
 
       # Control
+      desc "Generate sphinx configuration files"
+      task :config, :roles => :app do
+        run("cd #{deploy_to}/current; rake ts:config RAILS_ENV=production") 
+      end
+
+
+      desc "Index the data and generate config file."
+      task :index_config, :roles => :app do
+        run("cd #{deploy_to}/current; rake ts:in RAILS_ENV=production")
+      end
       
-      desc "Restart the sphinx searchd daemon"
-      task :restart, :roles => :app do
-        run("cd #{deploy_to}/current; rake us:start")  ### start or restart?  SUDO ? ###
-      end
-
-      desc "Regenerate / Rotate the search index."
+      desc "Index the data."
       task :reindex, :roles => :app do
-        run("cd #{deploy_to}/current; rake us:in")  ### SUDO ? ###
+        run("cd #{deploy_to}/current; rake ts:reindex RAILS_ENV=production")
       end
-
+      
+      desc "Start the sphinx searchd daemon"
+      task :start, :roles => :app do
+        run("cd #{deploy_to}/current; rake ts:start RAILS_ENV=production") 
+      end
+      
+      desc "Stop the sphinx searchd daemon"
+      task :stop, :roles => :app do
+        run("cd #{deploy_to}/current; rake ts:stop RAILS_ENV=production") 
+      end
+      
+      desc "Rebuild sphinx indices"
+      task :rebuild, :roles => :app do
+        run("cd #{deploy_to}/current; rake ts:rebuild RAILS_ENV=production")
+      end
+      
+      desc "Handling Delta Indexes with delayed job"
+      task :dd, :roles => :app do
+        run("cd #{deploy_to}/current; rake ts:delayed_delta RAILS_ENV=production") 
+      end
+      
+      desc "Check Thinking Sphinx version"
+      task :ts_version, :roles => :app do
+        run("cd #{deploy_to}/current; rake ts:version RAILS_ENV=production") 
+      end
     end 
   end
 end
