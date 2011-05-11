@@ -73,43 +73,43 @@ Capistrano::Configuration.instance(:must_exist).load do
       # Control
       desc "Generate sphinx configuration files"
       task :config, :roles => :app do
-        run("cd #{deploy_to}/current; rake ts:config RAILS_ENV=production") 
+        run("cd #{deploy_to}/current; rake ts:config RAILS_ENV=#{rails_env}") 
       end
 
 
       desc "Index the data and generate config file."
       task :index_config, :roles => :app do
-        run("cd #{deploy_to}/current; rake ts:in RAILS_ENV=production")
+        run("cd #{deploy_to}/current; rake ts:in RAILS_ENV=#{rails_env}")
       end
       
       desc "Index the data."
       task :reindex, :roles => :app do
-        run("cd #{deploy_to}/current; rake ts:reindex RAILS_ENV=production")
+        run("cd #{deploy_to}/current; rake ts:reindex RAILS_ENV=#{rails_env}")
       end
       
       desc "Start the sphinx searchd daemon"
       task :start, :roles => :app do
-        run("cd #{deploy_to}/current; rake ts:start RAILS_ENV=production") 
+        run("cd #{deploy_to}/current; rake ts:start RAILS_ENV=#{rails_env}") 
       end
       
       desc "Stop the sphinx searchd daemon"
       task :stop, :roles => :app do
-        run("cd #{deploy_to}/current; rake ts:stop RAILS_ENV=production") 
+        run("cd #{deploy_to}/current; rake ts:stop RAILS_ENV=#{rails_env}") 
       end
       
       desc "Rebuild sphinx indices"
       task :rebuild, :roles => :app do
-        run("cd #{deploy_to}/current; rake ts:rebuild RAILS_ENV=production")
+        run("cd #{deploy_to}/current; rake ts:rebuild RAILS_ENV=#{rails_env}")
       end
       
       desc "Handling Delta Indexes with delayed job"
       task :dd, :roles => :app do
-        run("cd #{deploy_to}/current; rake ts:delayed_delta RAILS_ENV=production") 
+        run("cd #{deploy_to}/current; rake ts:delayed_delta RAILS_ENV=#{rails_env}") 
       end
       
       desc "Check Thinking Sphinx version"
       task :ts_version, :roles => :app do
-        run("cd #{deploy_to}/current; rake ts:version RAILS_ENV=production") 
+        run("cd #{deploy_to}/current; rake ts:version RAILS_ENV=#{rails_env}") 
       end
     end 
   end

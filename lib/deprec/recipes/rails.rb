@@ -298,7 +298,38 @@ Capistrano::Configuration.instance(:must_exist).load do
       task :rollback, :roles => :app do
         run "cd #{deploy_to}/current && rake db:rollback RAILS_ENV=#{rails_env}"
       end
-
+      
+      desc "Download the database from the server"
+      task :pull, :roles => :app do
+        run "cd #{deploy_to}/current && rake db:dump RAILS_ENV=#{rails_env}"
+        download "#{deploy_to}/current/db/data.yml", "db/data.yml", :via => :scp
+        system("rake db:load")
+      end
+      
+      desc ". WARNING"
+      desc <<-DESC
+      Upload local database to the server.
+      WARNING: This will overwrite your data on the server and 
+      it will not be recoverable.
+      DESC
+      task :push, :roles => :app do
+        message = <<-MSG
+        
+        ********************************************************
+        WARNING: This will overwrite your data on the server and 
+        it will not be recoverable. 
+        ********************************************************
+        Continue (y/n)?:
+        MSG
+        answer = Capistrano::CLI.ui.ask(message)   
+        abort "There was no change to the database on the server" unless answer == 'y'
+        
+        system("rake db:dump")
+        upload "db/data.yml", "#{deploy_to}/current/db/data.yml", :via => :scp
+        run "cd #{deploy_to}/current && rake db:load RAILS_ENV=#{rails_env}"
+        run "cd #{deploy_to}/current && mv db/data.yml /tmp/data.yml"
+      end 
+         
     end
 
   end
