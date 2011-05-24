@@ -299,9 +299,11 @@ Capistrano::Configuration.instance(:must_exist).load do
         run "cd #{deploy_to}/current && rake db:rollback RAILS_ENV=#{rails_env}"
       end
       
-      desc "Download the database from the server. 
+      desc <<-DESC
+      Download the database from the server. 
       Database will be saved in file db/data.yml.
-      You will need to run 'rake db:load"
+      You will need to run 'rake db:load
+      DESC
       task :pull, :roles => :app do
         run "cd #{deploy_to}/current && rake db:dump RAILS_ENV=#{rails_env}"
         download "#{deploy_to}/current/db/data.yml", "db/data.yml", :via => :scp
