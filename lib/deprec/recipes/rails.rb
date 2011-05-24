@@ -302,7 +302,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       desc <<-DESC
       Download the database from the server. 
       Database will be saved in file db/data.yml.
-      You will need to run 'rake db:load
+      You will need to run 'rake db:load'
       DESC
       task :pull, :roles => :app do
         run "cd #{deploy_to}/current && rake db:dump RAILS_ENV=#{rails_env}"
